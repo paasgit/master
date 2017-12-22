@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mds.manager.dao.tUserDao">
+    <resultMap id="result_tUser_Map" type="com.mds.manager.model.tUser">
+        <id column="tUser0" property="id" />
+        <result column="tUser1" property="username" />
+        <result column="tUser2" property="password" />
+        <result column="tUser3" property="nickname" />
+        <result column="tUser4" property="status" />
+    </resultMap>
+
+    <sql id="Assist">
+        <where>
+            <foreach collection="require" item="req" separator=" ">
+                ${req.require} #{req.value}
+            </foreach>
+        </where>
+    </sql>
+
+    <sql id="updateAssist">
+        <where>
+            <foreach collection="assist.require" item="req" separator=" ">
+                ${req.require} #{req.value}
+            </foreach>
+        </where>
+    </sql>
+
+    <sql id="t_user_Column">
+        t_user.id as tUser0
+        ,t_user.username as tUser1
+        ,t_user.password as tUser2
+        ,t_user.nickname as tUser3
+        ,t_user.status as tUser4
+    </sql>
+
+    <select id="gettUserRowCount" parameterType="com.mds.manager.common.Assist" resultType="java.lang.Long">
+        select count(id) from t_user
+        <if test="require!=null"><include refid="Assist" /></if>
+    </select>
+    <select id="selecttUser" parameterType="com.mds.manager.common.Assist"  resultMap="result_tUser_Map">
+        select  <if test="distinct !=null">${distinct}</if>
+        <choose>
+            <when test="resultColumn!=null">${resultColumn}</when>
+            <otherwise>
+        <include refid="t_user_Column" /> 
+            </otherwise>
+        </choose>
+        from t_user
+        <if test="require!=null"><include refid="Assist" /></if>
+        <if test="order !=null">${order}</if>
+        <if test="rowSize !=null"> LIMIT #{rowSize} <if test="startRow !=null"> OFFSET #{startRow}</if></if>
+    </select> 
+
+    <select id="selecttUserById" parameterType="java.lang.Integer" resultMap="result_tUser_Map">
+        select 
+            <include refid="t_user_Column" /> 
+        from t_user
+        where t_user.id = #{id}
+    </select> 
+
+
+    <insert id="inserttUser" parameterType="com.mds.manager.model.tUser">
+        insert into t_user(id,username,password,nickname,status) 
+        values(#{id},#{username},#{password},#{nickname},#{status})
+    </insert>
+
+    <insert id="insertNonEmptytUser" parameterType="com.mds.manager.model.tUser">
+        insert into t_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="username != null">username,</if>
+            <if test="password != null">password,</if>
+            <if test="nickname != null">nickname,</if>
+            <if test="status != null">status,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null"> #{id},</if>
+            <if test="username != null"> #{username},</if>
+            <if test="password != null"> #{password},</if>
+            <if test="nickname != null"> #{nickname},</if>
+            <if test="status != null"> #{status},</if>
+        </trim>
+    </insert>
+
+    <delete id="deletetUserById" parameterType="java.lang.Integer">
+        delete from t_user
+        where id = #{id}
+    </delete>
+
+    <delete id="deletetUser" parameterType="com.mds.manager.common.Assist">
+        delete from t_user
+        <if test="require!=null"><include refid="Assist" /></if>
+    </delete>
+
+    <update id="updatetUserById" parameterType="com.mds.manager.model.tUser">
+        update t_user set
+            username=#{username}
+            ,password=#{password}
+            ,nickname=#{nickname}
+            ,status=#{status}
+        where id=#{id}
+    </update>
+
+    <update id="updateNonEmptytUserById" parameterType="com.mds.manager.model.tUser">
+        update t_user
+        <set>
+            <if test="username != null">
+                username=#{username},
+            </if>
+            <if test="password != null">
+                password=#{password},
+            </if>
+            <if test="nickname != null">
+                nickname=#{nickname},
+            </if>
+            <if test="status != null">
+                status=#{status},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <update id="updatetUser" parameterType="map">
+        update t_user
+        <set>
+                id=#{enti.id},
+                username=#{enti.username},
+                password=#{enti.password},
+                nickname=#{enti.nickname},
+                status=#{enti.status},
+        </set>
+        <if test="assist.require!=null"><include refid="updateAssist" /></if>
+    </update>
+
+    <update id="updateNonEmptytUser" parameterType="map">
+        update t_user
+        <set>
+            <if test="enti.id != null">
+                id=#{enti.id},
+            </if>
+            <if test="enti.username != null">
+                username=#{enti.username},
+            </if>
+            <if test="enti.password != null">
+                password=#{enti.password},
+            </if>
+            <if test="enti.nickname != null">
+                nickname=#{enti.nickname},
+            </if>
+            <if test="enti.status != null">
+                status=#{enti.status},
+            </if>
+        </set>
+        <if test="assist.require!=null"><include refid="updateAssist" /></if>
+    </update>
+
+</mapper>
