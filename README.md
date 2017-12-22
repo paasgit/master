@@ -11,7 +11,7 @@ IE-MANAGER是一款基于Java的开源后台管理系统，为深圳市迈鼎盛
 ![输入图片说明](https://gitee.com/uploads/images/2017/1222/115408_e9294814_901184.png "3.PNG")
 ![输入图片说明](https://gitee.com/uploads/images/2017/1222/115418_c3441ab4_901184.png "4.PNG")
 ![输入图片说明](https://gitee.com/uploads/images/2017/1222/115427_5bcfb66a_901184.png "5.PNG")
-![输入图片说明](https://gitee.com/uploads/images/2017/1222/115437_10d28ab2_901184.png "6.PNG")
+![输入图片说明](https://gitee.com/uploads/images/2017/1222/115633_aac12fcd_901184.png "7.PNG")
 
 有意向进行开发项目合作的，可以加微信j285549265，渴望热爱开源、热爱技术的小伙伴来信咯！
 
